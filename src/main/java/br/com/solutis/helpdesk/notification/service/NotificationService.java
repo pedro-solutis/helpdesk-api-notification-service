@@ -28,8 +28,8 @@ public class NotificationService {
     }
 
     public NotificationDetailDTO getNotificationById(Long notificationId) {
-        var ticket = notificationRepository.findById(notificationId).orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
-        return new NotificationDetailDTO(ticket.getType(), ticket.getMessage(), ticket.getTickedId(), ticket.getRecipientId());
+        var notification = notificationRepository.findById(notificationId).orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
+        return new NotificationDetailDTO(notification);
     }
 
     @Transactional
