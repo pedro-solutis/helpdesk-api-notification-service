@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import br.com.solutis.helpdesk.notification.dto.NotificationDetailDTO;
 import br.com.solutis.helpdesk.notification.dto.NotificationListDTO;
 import br.com.solutis.helpdesk.notification.dto.TicketEvent;
+import br.com.solutis.helpdesk.notification.exception.ReadNotificationException;
 import br.com.solutis.helpdesk.notification.exception.ResourceNotFoundException;
 import br.com.solutis.helpdesk.notification.model.Notification;
 import br.com.solutis.helpdesk.notification.repository.NotificationRepository;
@@ -55,6 +56,13 @@ public class NotificationService {
             case "TICKET_STATUS_CHANGED" -> "O status do chamado " + event.title() + " foi alterado.";
             default -> "Atualização no chamado: " + event.title();
         };
+    }
+
+    public void readNotification(Long notifcationId) {
+        var notification = notificationRepository.findById(notifcationId).orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
+        if(notification.isRead())
+            throw new ReadNotificationException("Notification was read before");
+        notification.read();
     }
 
 }
