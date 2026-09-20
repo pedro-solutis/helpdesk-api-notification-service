@@ -29,6 +29,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @ExceptionHandler (ReadNotificationException.class)
+    public ResponseEntity<StandardError> handleReadNotification(ReadNotificationException ex, HttpServletRequest request){
+        StandardError error = new StandardError(
+            LocalDateTime.now(),
+            HttpStatus.BAD_REQUEST.value(),
+            "Bad Request",
+            ex.getMessage(),
+            request.getRequestURI(),
+            null
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<StandardError> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
         List<StandardError.FieldError> fieldErrors = ex.getBindingResult()
