@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.solutis.helpdesk.notification.dto.NotificationDetailDTO;
 import br.com.solutis.helpdesk.notification.dto.NotificationListDTO;
-import br.com.solutis.helpdesk.notification.dto.TicketEvent;
+import br.com.solutis.helpdesk.notification.dto.TicketEventDTO;
 import br.com.solutis.helpdesk.notification.exception.ReadNotificationException;
 import br.com.solutis.helpdesk.notification.exception.ResourceNotFoundException;
 import br.com.solutis.helpdesk.notification.model.Notification;
@@ -33,7 +33,7 @@ public class NotificationService {
     }
 
     @Transactional
-    public void processTicketEvent(TicketEvent event) {
+    public void processTicketEvent(TicketEventDTO event) {
         String message = generateMessageForEvent(event);
         
         Notification notification = new Notification(
@@ -49,7 +49,7 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
-    private String generateMessageForEvent(TicketEvent event) {
+    private String generateMessageForEvent(TicketEventDTO event) {
         return switch (event.eventType()) {
             case "TICKET_CREATED" -> "Um novo chamado foi criado: " + event.title();
             case "TICKET_ASSIGNED" -> "Um técnico foi atribuído ao chamado: " + event.title();

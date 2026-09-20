@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.solutis.helpdesk.notification.dto.TicketEvent;
+import br.com.solutis.helpdesk.notification.dto.TicketEventDTO;
 import br.com.solutis.helpdesk.notification.service.NotificationService;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,7 +22,7 @@ class NotificationListenerTest {
 
     @Test
     void shouldHandleTicketEventAndCallService() {
-        TicketEvent event = new TicketEvent(10L, 5L, "TICKET_CREATED", "Erro na rede", "Fios cortados");
+        TicketEventDTO event = new TicketEventDTO(10L, 5L, "TICKET_CREATED", "Erro na rede", "Fios cortados");
 
         notificationListener.handleTicketEvent(event);
 

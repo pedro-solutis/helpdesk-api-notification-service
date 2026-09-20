@@ -23,7 +23,7 @@ import org.springframework.data.domain.PageRequest;
 
 import br.com.solutis.helpdesk.notification.dto.NotificationDetailDTO;
 import br.com.solutis.helpdesk.notification.dto.NotificationListDTO;
-import br.com.solutis.helpdesk.notification.dto.TicketEvent;
+import br.com.solutis.helpdesk.notification.dto.TicketEventDTO;
 import br.com.solutis.helpdesk.notification.exception.ResourceNotFoundException;
 import br.com.solutis.helpdesk.notification.model.Notification;
 import br.com.solutis.helpdesk.notification.repository.NotificationRepository;
@@ -65,7 +65,7 @@ class NotificationServiceTest {
 
     @Test
     void shouldProcessTicketEvent_AndSaveNotification() {
-        TicketEvent event = new TicketEvent(100L, 200L, "TICKET_CREATED", "Problema no PC", "Descricao");
+        TicketEventDTO event = new TicketEventDTO(100L, 200L, "TICKET_CREATED", "Problema no PC", "Descricao");
 
         notificationService.processTicketEvent(event);
 
