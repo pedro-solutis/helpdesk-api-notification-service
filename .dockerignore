@@ -1,0 +1,29 @@
+# Build e pacotes
+target/
+*.jar
+*.war
+*.ear
+*.class
+
+# Ferramentas e IDEs
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+
+# Git
+.git/
+.gitignore
+
+# Env vars
+.env
+.env.*
+
+# Logs
+*.log
+
+# Mac
+.DS_Store
+
