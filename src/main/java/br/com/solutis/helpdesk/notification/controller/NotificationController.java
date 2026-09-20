@@ -27,7 +27,7 @@ public class NotificationController {
     }
 
     @GetMapping ("/{id}")
-    private ResponseEntity<NotificationDetailDTO> getNotificationById(@PathVariable("id") Long notificationId){
+    public ResponseEntity<NotificationDetailDTO> getNotificationById(@PathVariable("id") Long notificationId){
         var notification = notificationService.getNotificationById(notificationId);
         return ResponseEntity.ok(notification);
     }
