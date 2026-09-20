@@ -43,5 +43,13 @@ public class Notification {
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp 
     private LocalDateTime createdAt;
+
+    public void read(){
+        read = true;
+    }
+
+    public boolean isRead(){
+        return read;
+    }
     
 }
