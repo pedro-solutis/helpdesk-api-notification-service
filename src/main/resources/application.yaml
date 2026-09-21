@@ -21,3 +21,7 @@ spring:
     password: ${RABBITMQ_PASSWORD}
   config:
     import: optional:file:.env[.properties]
+
+springdoc:
+  server:
+    uri: http://localhost:8080/api
