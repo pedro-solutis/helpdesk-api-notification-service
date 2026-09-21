@@ -23,8 +23,8 @@ spring:
     import: optional:file:.env[.properties]
 
 springdoc:
-  server:
-    uri: http://localhost:8080/api
+  servers:
+    url: http://localhost:8080/api
     
 api:
   security:
