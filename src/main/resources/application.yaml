@@ -21,3 +21,8 @@ spring:
     password: ${RABBITMQ_PASSWORD}
   config:
     import: optional:file:.env[.properties]
+
+api:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:mySecretKey}
