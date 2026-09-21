@@ -25,3 +25,8 @@ spring:
 springdoc:
   server:
     uri: http://localhost:8080/api
+    
+api:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:mySecretKey}
