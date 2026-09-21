@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.solutis.helpdesk.notification.dto.NotificationDetailDTO;
 import br.com.solutis.helpdesk.notification.dto.NotificationListDTO;
 import br.com.solutis.helpdesk.notification.service.NotificationService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping ("/notifications")
+@SecurityRequirement(name = "bearer-key")
 public class NotificationController {
 
     @Autowired
