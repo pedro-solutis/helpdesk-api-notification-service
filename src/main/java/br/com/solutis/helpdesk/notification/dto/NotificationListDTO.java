@@ -3,10 +3,12 @@ package br.com.solutis.helpdesk.notification.dto;
 import br.com.solutis.helpdesk.notification.model.Notification;
 
 public record NotificationListDTO(
+    Long notificationId,
     String type, 
-    String message
+    String message,
+    Long ticketId
 ) {
     public NotificationListDTO(Notification notification){
-        this(notification.getType(), notification.getMessage());
+        this(notification.getId(), notification.getType(), notification.getMessage(), notification.getRecipientId());
     }
 }

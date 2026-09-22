@@ -3,6 +3,7 @@ package br.com.solutis.helpdesk.notification.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,7 +25,7 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<Page<NotificationListDTO>> getAllNotifications(Pageable pageable){
+    public ResponseEntity<Page<NotificationListDTO>> getAllNotifications(@PageableDefault(page=0, size = 10, sort = "createAt") Pageable pageable){
         var notifications = notificationService.getAllNotifications(pageable);
         return ResponseEntity.ok(notifications);
     }
@@ -33,6 +34,12 @@ public class NotificationController {
     public ResponseEntity<NotificationDetailDTO> getNotificationById(@PathVariable("id") Long notificationId){
         var notification = notificationService.getNotificationById(notificationId);
         return ResponseEntity.ok(notification);
+    }
+
+    @GetMapping("/recipient/{id}")
+    public ResponseEntity<Page<NotificationListDTO>> getNotificationByRecipientId(@PathVariable ("id") Long recipientId,@PageableDefault(page=0, size = 10, sort = "createAt") Pageable pageable){
+        var notifications = notificationService.getNotificationByRecipientId(recipientId, pageable);
+        return ResponseEntity.ok(notifications);
     }
 
     @PatchMapping ("/{id}")

@@ -32,6 +32,11 @@ public class NotificationService {
         return new NotificationDetailDTO(notification);
     }
 
+    public Page<NotificationListDTO> getNotificationByRecipientId(Long recipientId, Pageable pageable) {
+        var notifications = notificationRepository.findAllByRecipientId(recipientId, pageable);
+        return notifications.map(NotificationListDTO::new);
+    }
+
     @Transactional
     public void processTicketEvent(TicketEventDTO event) {
         String message = generateMessageForEvent(event);
