@@ -22,7 +22,11 @@ public class NotificationService {
     @Autowired 
     private NotificationRepository notificationRepository;
 
-    public Page<NotificationListDTO> getAllNotifications(Pageable pageable) {
+    public Page<NotificationListDTO> getAllNotifications(Long ticketId, Long recipientId, String type, Boolean read, Pageable pageable) {
+        if (ticketId != null || recipientId != null || type != null || read != null){
+            var notifications = notificationRepository.findAllFilter(ticketId, recipientId, type, read, pageable);
+            return notifications.map(NotificationListDTO::new);
+        }
         var notifications = notificationRepository.findAll(pageable);
         return notifications.map(NotificationListDTO::new);
     }
@@ -30,11 +34,6 @@ public class NotificationService {
     public NotificationDetailDTO getNotificationById(Long notificationId) {
         var notification = notificationRepository.findById(notificationId).orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
         return new NotificationDetailDTO(notification);
-    }
-
-    public Page<NotificationListDTO> getNotificationByRecipientId(Long recipientId, Pageable pageable) {
-        var notifications = notificationRepository.findAllByRecipientId(recipientId, pageable);
-        return notifications.map(NotificationListDTO::new);
     }
 
     @Transactional

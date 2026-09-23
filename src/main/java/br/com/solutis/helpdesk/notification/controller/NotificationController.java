@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.solutis.helpdesk.notification.dto.NotificationDetailDTO;
@@ -25,8 +26,13 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<Page<NotificationListDTO>> getAllNotifications(@PageableDefault(page=0, size = 10, sort = "createAt") Pageable pageable){
-        var notifications = notificationService.getAllNotifications(pageable);
+    public ResponseEntity<Page<NotificationListDTO>> getAllNotifications(
+        @RequestParam(required = false) Long ticketId,
+        @RequestParam(required = false) Long recipientId,
+        @RequestParam(required = false) String type,
+        @RequestParam(required = false) Boolean read,
+        @PageableDefault(page=0, size = 10, sort = "createAt") Pageable pageable){
+        var notifications = notificationService.getAllNotifications(ticketId, recipientId, type, read, pageable);
         return ResponseEntity.ok(notifications);
     }
 
@@ -34,12 +40,6 @@ public class NotificationController {
     public ResponseEntity<NotificationDetailDTO> getNotificationById(@PathVariable("id") Long notificationId){
         var notification = notificationService.getNotificationById(notificationId);
         return ResponseEntity.ok(notification);
-    }
-
-    @GetMapping("/recipient/{id}")
-    public ResponseEntity<Page<NotificationListDTO>> getNotificationByRecipientId(@PathVariable ("id") Long recipientId,@PageableDefault(page=0, size = 10, sort = "createAt") Pageable pageable){
-        var notifications = notificationService.getNotificationByRecipientId(recipientId, pageable);
-        return ResponseEntity.ok(notifications);
     }
 
     @PatchMapping ("/{id}")
