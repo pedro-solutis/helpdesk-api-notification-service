@@ -17,7 +17,7 @@ public record NotificationDetailDTO(
     public NotificationDetailDTO(Notification notification) {
         this(
             notification.getId(),
-            notification.getTickedId(),
+            notification.getTicketId(),
             notification.getRecipientId(),
             notification.getType(),
             notification.getMessage(),
