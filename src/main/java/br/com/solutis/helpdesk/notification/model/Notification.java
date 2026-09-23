@@ -26,7 +26,7 @@ public class Notification {
     private Long id;
 
     @Column(name = "ticket_id", nullable = false)
-    private Long tickedId;
+    private Long ticketId;
 
     @Column(name = "recipient_id", nullable = false)
     private Long recipientId;
