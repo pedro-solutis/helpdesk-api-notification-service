@@ -3,6 +3,8 @@ package br.com.solutis.helpdesk.notification.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -52,6 +55,7 @@ class NotificationControllerTest {
     }
 
     @Test
+    @DisplayName("Should return notification details by ID and HTTP status 200")
     void shouldReturnNotificationById_AndStatus200() throws Exception {
         NotificationDetailDTO detailDTO = createMockNotificationDetail();
         when(notificationService.getNotificationById(1L)).thenReturn(detailDTO);
@@ -62,6 +66,7 @@ class NotificationControllerTest {
     }
 
     @Test
+    @DisplayName("Should return HTTP status 404 when notification ID is not found")
     void shouldReturnStatus404_WhenNotificationNotFound() throws Exception {
         when(notificationService.getNotificationById(99L)).thenThrow(new ResourceNotFoundException("Not found"));
 
@@ -72,9 +77,30 @@ class NotificationControllerTest {
     }
 
     @Test
+    @DisplayName("Should return paginated notifications without filters and HTTP status 200")
     void shouldReturnPagedNotifications_AndStatus200() throws Exception {
-        when(notificationService.getAllNotifications(any())).thenReturn(new PageImpl<>(List.of()));
+        when(notificationService.getAllNotifications(any(), any(), any(), any(), any())).thenReturn(new PageImpl<>(List.of()));
         mockMvc.perform(get("/notifications"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Should return paginated notifications with query filters and HTTP status 200")
+    void shouldReturnPagedNotificationsWithFilters_AndStatus200() throws Exception {
+        when(notificationService.getAllNotifications(any(), any(), any(), any(), any())).thenReturn(new PageImpl<>(List.of()));
+        mockMvc.perform(get("/notifications")
+                .param("ticketId", "10")
+                .param("recipientId", "20")
+                .param("type", "TICKET_CREATED")
+                .param("read", "false"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Should mark notification as read and return HTTP status 200")
+    void shouldReadNotification_AndStatus200() throws Exception {
+        mockMvc.perform(patch("/notifications/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Marked as read"));
     }
 }
