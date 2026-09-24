@@ -15,7 +15,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
         "select n from Notification n where " +
         "(:ticketId is null or n.ticketId = :ticketId) AND " +
         "(:recipientId is null or n.recipientId = :recipientId) AND " +
-        "(:type is null or n.type like concat('%', :type, '%')) AND " +
+        "(:type is null or n.type ilike %:type%) AND " +
         "(:read is null or n.read = :read)"
     )
     Page<Notification> findAllFilter(Long ticketId, Long recipientId, String type, Boolean read, Pageable pageable);
