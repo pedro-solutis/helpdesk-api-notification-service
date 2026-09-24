@@ -1,7 +1,5 @@
 package br.com.solutis.helpdesk.notification.service;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,28 +36,8 @@ public class NotificationService {
 
     @Transactional
     public void processTicketEvent(TicketEventDTO event) {
-        String message = generateMessageForEvent(event);
-        
-        Notification notification = new Notification(
-                null, 
-                event.ticketId(), 
-                event.recipientId() != null ? event.recipientId() : 0L,
-                event.eventType(), 
-                message, 
-                false,
-                LocalDateTime.now()
-        );
-        
+        var notification =  new Notification(event);
         notificationRepository.save(notification);
-    }
-
-    private String generateMessageForEvent(TicketEventDTO event) {
-        return switch (event.eventType()) {
-            case "TICKET_CREATED" -> "Um novo chamado foi criado: " + event.title();
-            case "TICKET_ASSIGNED" -> "Um técnico foi atribuído ao chamado: " + event.title();
-            case "TICKET_STATUS_CHANGED" -> "O status do chamado " + event.title() + " foi alterado.";
-            default -> "Atualização no chamado: " + event.title();
-        };
     }
 
     public void readNotification(Long notifcationId) {
