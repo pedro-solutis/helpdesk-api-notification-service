@@ -67,6 +67,7 @@ public class NotificationService {
         if(notification.isRead())
             throw new ReadNotificationException("Notification was read before");
         notification.read();
+        notificationRepository.save(notification);
     }
 
 }
