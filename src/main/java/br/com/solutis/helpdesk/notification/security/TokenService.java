@@ -10,10 +10,10 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 @Service 
 public class TokenService {
 
-    @Value("${api.security.jwt.secret}")
+    @Value("${api.security.token.secret}")
     private String jwtSecret;
 
-    @Value("${api.security.jwt.issuer}")
+    @Value("${api.security.token.issuer}")
     private String issuer; 
 
     public String validateToken(String token) {
