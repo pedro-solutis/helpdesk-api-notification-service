@@ -6,15 +6,19 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration 
 public class RabbitMQConfiguration {
     
-    public static final String NOTIFICATION_QUEUE = "notification.queue";
-    public static final String TICKET_EXCHANGE = "ticket.exchange";
-    public static final String ROUTING_KEY = "ticket.#";
+    @Value ("${api.messager.queue}")
+    public String NOTIFICATION_QUEUE;
+    @Value ("${api.messager.exchange}")
+    public String TICKET_EXCHANGE;
+    @Value ("${api.messager.routing-key}")
+    public String ROUTING_KEY;
 
     @Bean
     public Queue notificationQueue() {

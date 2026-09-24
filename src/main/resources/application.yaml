@@ -6,8 +6,8 @@ spring:
     name: notification
   datasource:
     url: ${DATASOURCE_NAME:jdbc:postgresql://localhost:5432/notification_db}
-    username: ${DATASOURCE_USERNAME:postgres}
-    password: ${DATASOURCE_PASSWORD:postgres}
+    username: ${DATASOURCE_USERNAME:root}
+    password: ${DATASOURCE_PASSWORD:root}
     driver-class-name: ${DATASOURCE_DRIVER:org.postgresql.Driver}
   jpa:
     show-sql: true
@@ -21,13 +21,13 @@ spring:
     password: ${RABBITMQ_PASSWORD:guest}
   config:
     import: optional:file:.env[.properties]
-
-springdoc:
-  servers:
-    - url: ${GATEWAY_URL:http://localhost:8080/api}
     
 api:
   security:
-    jwt:
+    token:
       secret: ${JWT_SECRET:mySuperSecretKey123!}
       issuer: ${JWT_ISSUER:user-service}
+  messager:
+    exchange: ${RABBIT_EXCHANGE:ticket.exchange}
+    queue: ${RABBITMQ_NOTIFICATION_QUEUE:notification.queue}
+    routing-key: ${RABBITMQ_ROUTING_KEY:ticket.#}
