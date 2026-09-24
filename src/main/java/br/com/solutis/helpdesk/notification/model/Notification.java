@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import br.com.solutis.helpdesk.notification.dto.TicketEventDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,6 +44,13 @@ public class Notification {
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp 
     private LocalDateTime createdAt;
+
+    public Notification(TicketEventDTO event) {
+        ticketId = event.ticketId();
+        recipientId = event.recipientId();
+        type = event.eventType();
+        message = event.message();
+    }
 
     public void read(){
         read = true;
