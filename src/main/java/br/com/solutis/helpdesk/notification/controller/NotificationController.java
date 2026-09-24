@@ -31,7 +31,7 @@ public class NotificationController {
         @RequestParam(required = false) Long recipientId,
         @RequestParam(required = false) String type,
         @RequestParam(required = false) Boolean read,
-        @PageableDefault(page=0, size = 10, sort = "createAt") Pageable pageable){
+        @PageableDefault(page=0, size = 10, sort = "createdAt") Pageable pageable){
         var notifications = notificationService.getAllNotifications(ticketId, recipientId, type, read, pageable);
         return ResponseEntity.ok(notifications);
     }
