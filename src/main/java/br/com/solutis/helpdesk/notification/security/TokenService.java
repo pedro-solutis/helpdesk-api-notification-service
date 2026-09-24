@@ -13,13 +13,14 @@ public class TokenService {
     @Value("${api.security.jwt.secret}")
     private String jwtSecret;
 
-    private final String ISSUER = "userService";
+    @Value("${api.security.jwt.issuer}")
+    private String issuer; 
 
     public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
             return JWT.require(algorithm)
-                    .withIssuer(ISSUER)
+                    .withIssuer(issuer)
                     .build()
                     .verify(token)
                     .getSubject();
