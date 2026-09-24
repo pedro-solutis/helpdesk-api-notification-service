@@ -2,6 +2,7 @@ package br.com.solutis.helpdesk.notification.listener;
 
 import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ class NotificationListenerTest {
     private NotificationListener notificationListener;
 
     @Test
+    @DisplayName("Should handle incoming ticket event and call notification service")
     void shouldHandleTicketEventAndCallService() {
         TicketEventDTO event = new TicketEventDTO(10L, 5L, "TICKET_CREATED", "Erro na rede", "Fios cortados");
 
@@ -29,4 +31,3 @@ class NotificationListenerTest {
         verify(notificationService).processTicketEvent(event);
     }
 }
-
