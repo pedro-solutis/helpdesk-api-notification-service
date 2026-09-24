@@ -20,12 +20,13 @@ public class NotificationService {
     @Autowired 
     private NotificationRepository notificationRepository;
 
-    public Page<NotificationListDTO> getAllNotifications(Long ticketId, Long recipientId, String type, Boolean read, Pageable pageable) {
-        if (ticketId != null || recipientId != null || type != null || read != null){
-            var notifications = notificationRepository.findAllFilter(ticketId, recipientId, type, read, pageable);
-            return notifications.map(NotificationListDTO::new);
-        }
-        var notifications = notificationRepository.findAll(pageable);
+    public Page<NotificationListDTO> getAllNotifications(Long ticketId, Long recipientId, String type, Boolean read, Pageable pageable) {    
+        var notifications = notificationRepository.findAllFilter(
+            ticketId != null ? ticketId : null,
+            recipientId != null ? recipientId : null,
+            type != null ? type : null,
+            read != null ? read : null,
+            pageable);
         return notifications.map(NotificationListDTO::new);
     }
 
